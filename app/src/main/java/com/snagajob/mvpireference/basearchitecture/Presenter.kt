@@ -5,6 +5,7 @@ import com.snagajob.mvpireference.basemodels.Event
 import com.snagajob.mvpireference.basemodels.Result
 import com.snagajob.mvpireference.basemodels.State
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject

@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.LoaderManager
 import android.support.v4.content.Loader
+import com.snagajob.mvpireference.addTo
 import com.snagajob.mvpireference.basemodels.Action
 import com.snagajob.mvpireference.basemodels.Event
 import com.snagajob.mvpireference.basemodels.Result

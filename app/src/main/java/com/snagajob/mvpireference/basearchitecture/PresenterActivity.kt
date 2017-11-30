@@ -10,11 +10,11 @@ import com.snagajob.mvpireference.basemodels.State
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 
-abstract class PresenterActivity<P : Presenter<E, R, A, S>, E : Event, R : Result, A : Action, S : State> : AppCompatActivity(), PresenterView<P, E, R, A, S> {
+abstract class PresenterActivity<E : Event, R : Result, A : Action, S : State> : AppCompatActivity(), PresenterView<E, R, A, S> {
 
     override val events: PublishSubject<E> = PublishSubject.create()
 
-    override var presenter: P? = null
+    override var presenter: Presenter<E, R, A, S>? = null
     override var disposables = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +33,7 @@ abstract class PresenterActivity<P : Presenter<E, R, A, S>, E : Event, R : Resul
         super.onPause()
     }
 
-    override fun initializeLoader(loaderCallbacks: LoaderManager.LoaderCallbacks<P>) {
+    override fun initializeLoader(loaderCallbacks: LoaderManager.LoaderCallbacks<Presenter<E, R, A, S>>) {
         supportLoaderManager.initLoader(loaderId(), null, loaderCallbacks)
     }
 }
