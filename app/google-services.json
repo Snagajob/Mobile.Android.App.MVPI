@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "544657193092",
+    "firebase_url": "https://mobile-reference.firebaseio.com",
+    "project_id": "mobile-reference",
+    "storage_bucket": "mobile-reference.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:544657193092:android:37ce767ab0d69176",
+        "android_client_info": {
+          "package_name": "com.snagajob.mvpireference"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "544657193092-fitsvto3rl84ahnidfoup58hsukdn4n9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.snagajob.mvpireference",
+            "certificate_hash": "87dc0e879ba314a716b2b4499057d935edbf5e60"
+          }
+        },
+        {
+          "client_id": "544657193092-audo7l2k7jvtj18qgunnksj8l4u4vunv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEh4MAGa7SPqgi38RddeY7tW4ljWdtN2w"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "544657193092-audo7l2k7jvtj18qgunnksj8l4u4vunv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
