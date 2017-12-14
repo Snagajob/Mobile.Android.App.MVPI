@@ -9,21 +9,16 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
-abstract class Presenter<E : Event, R : Result, A : Action, S : State> {
+abstract class Presenter<E : Event, A : Action, R: Result, S : State> {
 
     protected val actions: PublishSubject<A> = PublishSubject.create()
     protected val states: BehaviorSubject<S> = BehaviorSubject.create()
 
     protected var eventDisposables = CompositeDisposable()
 
-    fun actions(): Observable<A> {
-        return actions
-    }
+    fun actions(): Observable<A> = actions
 
-    fun states(): Observable<out S> {
-        return states
-                .observeOn(AndroidSchedulers.mainThread())
-    }
+    fun states(): Observable<S> = states
 
     open fun attachEventStream(events: Observable<E>) {
         eventDisposables.clear()
