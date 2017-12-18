@@ -42,8 +42,7 @@ class LoginFragment: PresenterFragment<LoginEvent, LoginAction, LoginResult, Log
 
         when (state.snackbarState) {
             is SnackbarState.LoginSuccess -> snackbar.setText("Customers: " + state.snackbarState.customers).show()
-            is SnackbarState.BadUsername -> snackbar.setText("Username is incorrect").show()
-            is SnackbarState.BadPassword -> snackbar.setText("Password is incorrect").show()
+            is SnackbarState.BadCredentials -> snackbar.setText("Username or password is incorrect").show()
             is SnackbarState.NetworkFailure -> snackbar.setText("Network Failure").show()
             is SnackbarState.UnknownFailure -> snackbar.setText("Unknown Error").show()
             is SnackbarState.Hidden -> {}

@@ -49,8 +49,7 @@ class LoginPresenter: Presenter<LoginEvent, LoginAction, LoginResult, LoginState
     }
 
     private fun loginAccumulator(previousState: LoginState, result: LoginResult): LoginState = when (result) {
-        is LoginResult.BadUsername -> LoginState(true, SnackbarState.BadUsername())
-        is LoginResult.BadPassword -> LoginState(true, SnackbarState.BadPassword())
+        is LoginResult.BadCredentials -> LoginState(true, SnackbarState.BadCredentials())
         is LoginResult.LoginSuccess -> LoginState(true, SnackbarState.LoginSuccess(result.customers))
         is LoginResult.NetworkFailure -> LoginState(true, SnackbarState.NetworkFailure())
         is LoginResult.UnknownError -> LoginState(true, SnackbarState.UnknownFailure())

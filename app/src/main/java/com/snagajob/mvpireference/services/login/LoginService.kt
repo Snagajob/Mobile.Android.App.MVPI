@@ -29,12 +29,10 @@ class LoginService {
                         val customerName = it.body()!!.tokens.map { it.customerName }
                         LoginServiceResult.Success(customerName)
                     } else {
-                        //TODO: We can identify bad usernames, etc.
-                        //MPI is currently 500ing improperly. Will add additional cases later.
-                        if (it.code() == 401)
-                            LoginServiceResult.BadPassword()
-                        else
-                            LoginServiceResult.NetworkError()
+                        when (it.code()) {
+                            401 -> LoginServiceResult.BadCredentials()
+                            else -> LoginServiceResult.NetworkError()
+                        }
                     }
                 }
                 .onErrorReturn {
@@ -87,8 +85,7 @@ class LoginService {
 
     sealed class LoginServiceResult {
         class Success(val customers: List<String>): LoginServiceResult()
-        class BadUsername: LoginServiceResult()
-        class BadPassword: LoginServiceResult()
+        class BadCredentials: LoginServiceResult()
         class NetworkError: LoginServiceResult()
     }
 }
