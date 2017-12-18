@@ -23,7 +23,7 @@ class LoginFragment: PresenterFragment<LoginEvent, LoginAction, LoginResult, Log
             inflater.inflate(R.layout.fragment_login, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        snackbar = Snackbar.make(view, "", Snackbar.LENGTH_INDEFINITE)
+        snackbar = Snackbar.make(view, "", Snackbar.LENGTH_LONG)
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -42,7 +42,8 @@ class LoginFragment: PresenterFragment<LoginEvent, LoginAction, LoginResult, Log
 
         when (state.snackbarState) {
             is SnackbarState.LoginSuccess -> snackbar.setText("Customers: " + state.snackbarState.customers).show()
-            is SnackbarState.BadCredentials -> snackbar.setText("Username or Password is incorrect").show()
+            is SnackbarState.BadUsername -> snackbar.setText("Username is incorrect").show()
+            is SnackbarState.BadPassword -> snackbar.setText("Password is incorrect").show()
             is SnackbarState.NetworkFailure -> snackbar.setText("Network Failure").show()
             is SnackbarState.UnknownFailure -> snackbar.setText("Unknown Error").show()
             is SnackbarState.Hidden -> {}
