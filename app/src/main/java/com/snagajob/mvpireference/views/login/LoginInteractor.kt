@@ -43,7 +43,7 @@ class LoginInteractor(actions: Observable<LoginAction>, private val loginService
                 merge<LoginResult>(
                         source.ofType(LoginServiceResult.BadCredentials::class.java).map { LoginResult.BadCredentials() },
                         source.ofType(LoginServiceResult.NetworkError::class.java).map { LoginResult.NetworkFailure() },
-                        source.ofType(LoginServiceResult.Success::class.java).map { LoginResult.LoginSuccess() }
+                        source.ofType(LoginServiceResult.Success::class.java).map { LoginResult.LoginSuccess(it.customers) }
                 )
             }
         }

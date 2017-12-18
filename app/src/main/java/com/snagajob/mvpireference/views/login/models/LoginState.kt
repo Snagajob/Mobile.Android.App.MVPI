@@ -13,7 +13,7 @@ data class LoginState(val controlsEnabled: Boolean = true,
 sealed class SnackbarState {
     class BadCredentials: SnackbarState()
     class Hidden: SnackbarState()
-    class LoginSuccess: SnackbarState()
+    class LoginSuccess(val customers: List<String>): SnackbarState()
     class NetworkFailure: SnackbarState()
     class UnknownFailure: SnackbarState()
 }
