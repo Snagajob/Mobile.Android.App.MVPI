@@ -1,6 +1,6 @@
 package com.snagajob.mvpireference.views.login.models
 
-import com.snagajob.mvpireference.basemodels.Result
+import com.coreyhorn.mvpiframework.basemodels.Result
 
 sealed class LoginResult : Result() {
     class LoginSuccess(val customers: List<String>) : LoginResult()
