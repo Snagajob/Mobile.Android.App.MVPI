@@ -10,11 +10,11 @@ import com.snagajob.mvpireference.basemodels.State
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 
-abstract class PresenterFragment<E : Event, R : Result, A : Action, S : State> : Fragment(), PresenterView<E, R, A, S> {
+abstract class PresenterFragment<E : Event, A : Action, R: Result, S : State> : Fragment(), PresenterView<E, A, R, S> {
 
     override val events: PublishSubject<E> = PublishSubject.create()
 
-    override var presenter: Presenter<E, R, A, S>? = null
+    override var presenter: Presenter<E, A, R, S>? = null
     override var disposables = CompositeDisposable()
     override var attachAttempted = false
 
@@ -34,7 +34,7 @@ abstract class PresenterFragment<E : Event, R : Result, A : Action, S : State> :
         super.onPause()
     }
 
-    override fun initializeLoader(loaderCallbacks: LoaderManager.LoaderCallbacks<Presenter<E, R, A, S>>) {
+    override fun initializeLoader(loaderCallbacks: LoaderManager.LoaderCallbacks<Presenter<E, A, R, S>>) {
         loaderManager.initLoader(loaderId(), null, loaderCallbacks)
     }
 }
