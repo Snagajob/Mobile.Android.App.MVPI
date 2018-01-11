@@ -12,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".LoginActivity">
+        <activity android:name=".views.login.LoginActivity"/>
+
+        <activity android:name=".views.startup.StartupActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

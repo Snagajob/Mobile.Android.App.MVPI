@@ -3,7 +3,6 @@ package com.snagajob.mvpireference.basearchitecture
 import android.os.Bundle
 import android.support.v4.app.LoaderManager
 import android.support.v7.app.AppCompatActivity
-import com.snagajob.mvpireference.R
 import com.snagajob.mvpireference.basemodels.Action
 import com.snagajob.mvpireference.basemodels.Event
 import com.snagajob.mvpireference.basemodels.Result

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+    <entry>
+        <key>forceUpgradeMinTargetOsVersion</key>
+        <value>9999999</value>
+    </entry>
+    <entry>
+        <key>forceUpgradeActive</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>forceUpgradeCurrentAppVersionCode</key>
+        <value>9999999</value>
+    </entry>
+    <entry>
+        <key>forceUpgradeExceptedAppVersionCodes</key>
+        <value></value>
+    </entry>
+</defaultsMap>

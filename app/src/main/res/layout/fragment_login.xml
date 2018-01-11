@@ -15,7 +15,7 @@
             android:id="@+id/root"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            tools:context="com.snagajob.mvpireference.LoginActivity">
+            tools:context="com.snagajob.mvpireference.views.login.LoginActivity">
 
             <EditText
                 android:hint="email"
