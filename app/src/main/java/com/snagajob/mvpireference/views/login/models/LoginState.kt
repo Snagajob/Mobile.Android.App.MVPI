@@ -1,6 +1,6 @@
 package com.snagajob.mvpireference.views.login.models
 
-import com.snagajob.mvpireference.basemodels.State
+import com.coreyhorn.mvpiframework.basemodels.State
 
 data class LoginState(val controlsEnabled: Boolean = true,
                       val snackbarState: SnackbarState): State() {
