@@ -20,6 +20,8 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url "https://maven.google.com" }
+        maven { url "https://jitpack.io" }
     }
 }
 
@@ -33,6 +35,7 @@ ext {
             retrofit: "2.3.0",
             rxBinding: "2.0.0",
             rxJava: "2.1.1",
-            support: "27.0.2"
+            support: "27.0.2",
+            mvpiframework : "1.0.0"
     ]
 }

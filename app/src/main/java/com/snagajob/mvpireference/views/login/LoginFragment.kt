@@ -5,12 +5,12 @@ import android.support.design.widget.Snackbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.coreyhorn.mvpiframework.architecture.Presenter
+import com.coreyhorn.mvpiframework.architecture.PresenterFactory
+import com.coreyhorn.mvpiframework.architecture.PresenterFragment
 import com.jakewharton.rxbinding2.view.clicks
 import com.snagajob.mvpireference.LOADER_ID_LOGIN_FRAGMENT
 import com.snagajob.mvpireference.R
-import com.snagajob.mvpireference.basearchitecture.Presenter
-import com.snagajob.mvpireference.basearchitecture.PresenterFactory
-import com.snagajob.mvpireference.basearchitecture.PresenterFragment
 import com.snagajob.mvpireference.disposeWith
 import com.snagajob.mvpireference.views.login.models.*
 import kotlinx.android.synthetic.main.fragment_login.*

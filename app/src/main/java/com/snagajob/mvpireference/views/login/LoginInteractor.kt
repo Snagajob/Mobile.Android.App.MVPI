@@ -1,6 +1,6 @@
 package com.snagajob.mvpireference.views.login
 
-import com.snagajob.mvpireference.basearchitecture.Interactor
+import com.coreyhorn.mvpiframework.architecture.Interactor
 import com.snagajob.mvpireference.merge
 import com.snagajob.mvpireference.services.login.LoginService
 import com.snagajob.mvpireference.services.login.LoginService.LoginServiceResult
