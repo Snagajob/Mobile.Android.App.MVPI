@@ -73,8 +73,8 @@ class StartupActivity : AppCompatActivity() {
 
         return (forceUpgradeActive
                 && forceUpgradeCurrentAppVersionCode > BuildConfig.VERSION_CODE
-                && !forceUpgradeExceptionAppVersionCodes.contains(BuildConfig.VERSION_CODE)
-                && Build.VERSION.SDK_INT >= forceUpgradeMinTargetOsVersion)
+                && (Build.VERSION.SDK_INT >= forceUpgradeMinTargetOsVersion)
+                || !forceUpgradeExceptionAppVersionCodes.contains(BuildConfig.VERSION_CODE))
     }
 
 
