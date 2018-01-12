@@ -18,6 +18,7 @@ class StartupActivity : AppCompatActivity() {
     private val FORCE_UPGRADE_MIN_TARGET_OS_VERSION = "forceUpgradeMinTargetOsVersion"
     private val FORCE_UPGRADE_CURRENT_APP_VERSION_CODE = "forceUpgradeCurrentAppVersionCode"
     private val FORCE_UPGRADE_ACTIVE = "forceUpgradeActive"
+    private val FORCE_UPGRADE_IS_SOFT = "forceUpgradeIsSoft"
     private val FORCE_UPGRADE_EXCEPTED_APP_VERSION_CODES = "forceUpgradeExceptedAppVersionCodes"
 
     private lateinit var mFirebaseRemoteConfig : FirebaseRemoteConfig
@@ -49,44 +50,93 @@ class StartupActivity : AppCompatActivity() {
                     if (task.isSuccessful) {
                         mFirebaseRemoteConfig.activateFetched()
 
-                        if (isForceUpdateRequired()) {
-                            forceUpgrade()
-                        }
-                        else {
-                            startActivity(Intent(this, LoginActivity::class.java))
+                        when (isForceUpdateRequired()) {
+                            is ForceUpdateRequirement.HardForce -> { forceUpgrade(ForceUpdateRequirement.HardForce()) }
+                            is ForceUpdateRequirement.SoftForce -> { forceUpgrade(ForceUpdateRequirement.SoftForce()) }
+                            is ForceUpdateRequirement.None -> { continueToExpectedActivity() }
                         }
                     } else {
-                       startActivity(Intent(this, LoginActivity::class.java))
+                       continueToExpectedActivity()
                     }
                 }
     }
 
-    private fun isForceUpdateRequired() : Boolean
-    {
-        // in the unlikely scenario that you want to force upgrade a version of an app that is frozen for older OS versions,
-        // you can do so by setting min OS version down in Firebase, and if the client version is less than an excepted version, they'll be forced.
-        // Otherwise, this min os version should match the min os version of the current app version
-        val forceUpgradeMinTargetOsVersion = mFirebaseRemoteConfig.getLong(FORCE_UPGRADE_MIN_TARGET_OS_VERSION).toInt()
-        val forceUpgradeCurrentAppVersionCode = mFirebaseRemoteConfig.getLong(FORCE_UPGRADE_CURRENT_APP_VERSION_CODE).toInt()
-        val forceUpgradeActive = mFirebaseRemoteConfig.getBoolean(FORCE_UPGRADE_ACTIVE)
-        val forceUpgradeExceptionAppVersionCodes = mFirebaseRemoteConfig.getString(FORCE_UPGRADE_EXCEPTED_APP_VERSION_CODES).toListOfInts()
 
-        return (forceUpgradeActive
+    sealed class ForceUpdateRequirement {
+        class HardForce : ForceUpdateRequirement()
+        class SoftForce : ForceUpdateRequirement()
+        class None: ForceUpdateRequirement()
+    }
+
+    private fun isForceUpdateRequired() : ForceUpdateRequirement
+    {
+        // based upon the firebase parameters, this logic determines whether a force upgrade is required as follows:
+        // 1. is forceUpgradeActive? it must be or it does not happen.
+        // 2. is forceUpgradeCurrentAppVersionCode higher than the version code of this build? it must be or it does not happen.
+        // 3. is the forceUpgradeMinTargetOsVersion >= this devices os version OR does the list of excepted
+        // versions (forceUpgradeExceptionAppVersionCodes) contain this app version? if so, force upgrade.
+        // the effect of #3 is that any old device on a frozen version will be forced up to the latest frozen version for their OS
+        // while any device that is higher than our min OS will be force upgraded to our latest store release.
+        // 4. finally if we've determined that a force upgrade is required, we evaluate forceUpgradeIsSoft, and
+        // then return whether a HardForce, SoftForce, or None is required.
+
+        val forceUpgradeActive = mFirebaseRemoteConfig.getBoolean(FORCE_UPGRADE_ACTIVE)
+        val forceUpgradeCurrentAppVersionCode = mFirebaseRemoteConfig.getLong(FORCE_UPGRADE_CURRENT_APP_VERSION_CODE).toInt()
+        val forceUpgradeMinTargetOsVersion = mFirebaseRemoteConfig.getLong(FORCE_UPGRADE_MIN_TARGET_OS_VERSION).toInt()
+        val forceUpgradeExceptionAppVersionCodes = mFirebaseRemoteConfig.getString(FORCE_UPGRADE_EXCEPTED_APP_VERSION_CODES).toListOfInts()
+        val forceUpgradeIsSoft = mFirebaseRemoteConfig.getBoolean(FORCE_UPGRADE_IS_SOFT)
+
+        val forceRequired = (forceUpgradeActive
                 && forceUpgradeCurrentAppVersionCode > BuildConfig.VERSION_CODE
                 && (Build.VERSION.SDK_INT >= forceUpgradeMinTargetOsVersion)
                 || !forceUpgradeExceptionAppVersionCodes.contains(BuildConfig.VERSION_CODE))
+
+        return when (forceRequired) {
+            true ->  when (forceUpgradeIsSoft) {
+                true -> ForceUpdateRequirement.SoftForce()
+                false -> ForceUpdateRequirement.HardForce()
+            }
+            false -> ForceUpdateRequirement.None()
+        }
     }
 
-
-    private fun forceUpgrade()
+    private fun continueToExpectedActivity()
     {
+        startActivity(Intent(this, LoginActivity::class.java))
+    }
+
+    private fun forceUpgrade(forceUpdateRequirement: ForceUpdateRequirement)
+    {
+        var titleStringId = 0
+        var messageStringId = 0
+        var negativeButtonStringId = 0
+        var positiveButtonStringId = R.string.update
+
+        when (forceUpdateRequirement)
+        {
+            is ForceUpdateRequirement.HardForce -> {
+                titleStringId = R.string.new_version_required
+                messageStringId = R.string.to_continue_usage_need_to_update
+                negativeButtonStringId = R.string.close_app
+
+            }
+            is ForceUpdateRequirement.SoftForce -> {
+                titleStringId = R.string.new_version_recommended
+                messageStringId = R.string.please_update_to_latest
+                negativeButtonStringId = R.string.dont_update
+            }
+        }
+
         val dialog = AlertDialog.Builder(this)
                 // TODO Update all copy and add to strings.xml
-                .setTitle("New version required")
-                .setMessage("Please, update app to new version to continue reposting.")
-                .setPositiveButton("Update",
-                        { dialog, _ -> redirectToStore() }).setNegativeButton("Close App",
-                        { dialog, _ -> finish() }).create()
+                .setTitle(titleStringId)
+                .setMessage(messageStringId)
+                .setPositiveButton(positiveButtonStringId,
+                        { dialog, _ -> redirectToStore() }).setNegativeButton(negativeButtonStringId,
+                        { dialog, _ -> when (forceUpdateRequirement) {
+                            is ForceUpdateRequirement.HardForce -> finish()
+                            is ForceUpdateRequirement.SoftForce -> continueToExpectedActivity()
+                        } }).create()
         dialog.show()
     }
 

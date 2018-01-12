@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">MVPI Reference</string>
+
+    <!--- FORCE UPGRADE -->
+    <string name="new_version_required"> New version required</string>
+    <string name="new_version_recommended"> New version recommended</string>
+    <string name="please_update_to_latest">Please update to the latest version to continue using the app.</string>
+    <string name="to_continue_usage_need_to_update">To continue usage of the app you\'ll need to update.</string>
+    <string name="update">Update</string>
+    <string name="dont_update">Don\'t update</string>
+    <string name="close_app">Close app</string>
 </resources>
