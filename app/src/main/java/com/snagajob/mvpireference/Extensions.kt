@@ -1,13 +1,6 @@
 package com.snagajob.mvpireference
 
 import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
-
-fun Disposable.disposeWith(compositeDisposable: CompositeDisposable)
-{
-    compositeDisposable.add(this)
-}
 
 /**
  * Used to merge an infinite number of observables into one.

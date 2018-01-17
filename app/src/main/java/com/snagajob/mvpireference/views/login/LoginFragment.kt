@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import com.coreyhorn.mvpiframework.architecture.Presenter
 import com.coreyhorn.mvpiframework.architecture.PresenterFactory
 import com.coreyhorn.mvpiframework.architecture.PresenterFragment
+import com.coreyhorn.mvpiframework.disposeWith
 import com.jakewharton.rxbinding2.view.clicks
 import com.snagajob.mvpireference.LOADER_ID_LOGIN_FRAGMENT
 import com.snagajob.mvpireference.R
-import com.snagajob.mvpireference.disposeWith
 import com.snagajob.mvpireference.views.login.models.*
 import kotlinx.android.synthetic.main.fragment_login.*
 

@@ -1,7 +1,7 @@
 package com.snagajob.mvpireference.views.login
 
 import com.coreyhorn.mvpiframework.architecture.Presenter
-import com.snagajob.mvpireference.disposeWith
+import com.coreyhorn.mvpiframework.disposeWith
 import com.snagajob.mvpireference.merge
 import com.snagajob.mvpireference.services.login.LoginService
 import com.snagajob.mvpireference.views.login.models.*
