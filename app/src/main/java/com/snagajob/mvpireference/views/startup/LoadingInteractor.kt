@@ -2,6 +2,7 @@ package com.snagajob.mvpireference.views.startup
 
 import com.coreyhorn.mvpiframework.architecture.Interactor
 import com.snagajob.mvpireference.merge
+import com.snagajob.mvpireference.services.startup.RemoteConfigService
 import com.snagajob.mvpireference.views.startup.models.LoadingModel
 import io.reactivex.Observable
 import io.reactivex.ObservableSource

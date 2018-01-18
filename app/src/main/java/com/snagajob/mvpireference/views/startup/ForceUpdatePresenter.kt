@@ -3,6 +3,7 @@ package com.snagajob.mvpireference.views.startup
 import com.coreyhorn.mvpiframework.architecture.Presenter
 import com.coreyhorn.mvpiframework.disposeWith
 import com.snagajob.mvpireference.merge
+import com.snagajob.mvpireference.services.startup.ForceUpdateService
 import com.snagajob.mvpireference.views.startup.models.*
 import io.reactivex.Observable
 import io.reactivex.ObservableSource
@@ -19,7 +20,7 @@ class ForceUpdatePresenter : Presenter<ForceUpdateEvent, ForceUpdateAction, Forc
     }
 
     init{
-        attachResultStream(ForceUpdateInteractor(actions, ForceUpdateChecker()).results())
+        attachResultStream(ForceUpdateInteractor(actions, ForceUpdateService()).results())
     }
 
     override fun attachResultStream(results: Observable<ForceUpdateResult>) {

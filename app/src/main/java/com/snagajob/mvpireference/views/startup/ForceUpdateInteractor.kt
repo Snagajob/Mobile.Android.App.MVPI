@@ -2,6 +2,7 @@ package com.snagajob.mvpireference.views.startup
 
 import com.coreyhorn.mvpiframework.architecture.Interactor
 import com.snagajob.mvpireference.merge
+import com.snagajob.mvpireference.services.startup.ForceUpdateService
 import com.snagajob.mvpireference.views.startup.models.ForceUpdateAction
 import com.snagajob.mvpireference.views.startup.models.ForceUpdateResult
 import io.reactivex.Observable
@@ -9,19 +10,19 @@ import io.reactivex.ObservableSource
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 
-class ForceUpdateInteractor(actions: Observable<ForceUpdateAction>, val forceUpdateChecker: ForceUpdateChecker): Interactor<ForceUpdateResult>() {
+class ForceUpdateInteractor(actions: Observable<ForceUpdateAction>, val forceUpdateService: ForceUpdateService): Interactor<ForceUpdateResult>() {
 
     init {
         actions.compose(ActionToResult())
                 .subscribe { results.onNext(it) }
 
 
-        forceUpdateChecker.forceUpdateResults()
+        forceUpdateService.forceUpdateResults()
                 .compose(ForceUpdateRequirementTransformer())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { results.onNext(it) }
 
-        forceUpdateChecker.isForceUpdateRequired()
+        forceUpdateService.isForceUpdateRequired()
     }
 
     private inner class ActionToResult: ObservableTransformer<ForceUpdateAction, ForceUpdateResult> {
@@ -38,7 +39,7 @@ class ForceUpdateInteractor(actions: Observable<ForceUpdateAction>, val forceUpd
                             ForceUpdateResult.DialogDismissed()
                         },
                         source.ofType(ForceUpdateAction.ReevaluateConditionsMet::class.java).map {
-                            forceUpdateChecker.isForceUpdateRequired()
+                            forceUpdateService.isForceUpdateRequired()
                             ForceUpdateResult.EvaluationInProgress()
                         }
                 )
@@ -46,13 +47,13 @@ class ForceUpdateInteractor(actions: Observable<ForceUpdateAction>, val forceUpd
         }
     }
 
-    private class ForceUpdateRequirementTransformer : ObservableTransformer<ForceUpdateChecker.ForceUpdateRequirement, ForceUpdateResult> {
-        override fun apply(upstream: Observable<ForceUpdateChecker.ForceUpdateRequirement>): ObservableSource<ForceUpdateResult> {
+    private class ForceUpdateRequirementTransformer : ObservableTransformer<ForceUpdateService.ForceUpdateRequirement, ForceUpdateResult> {
+        override fun apply(upstream: Observable<ForceUpdateService.ForceUpdateRequirement>): ObservableSource<ForceUpdateResult> {
             return upstream.publish { source ->
                 merge<ForceUpdateResult>(
-                        source.ofType(ForceUpdateChecker.ForceUpdateRequirement.HardForce::class.java).map { ForceUpdateResult.HardForceRequired() },
-                        source.ofType(ForceUpdateChecker.ForceUpdateRequirement.SoftForce::class.java).map { ForceUpdateResult.SoftForceRequired() },
-                        source.ofType(ForceUpdateChecker.ForceUpdateRequirement.None::class.java).map { ForceUpdateResult.NoForceRequired() }
+                        source.ofType(ForceUpdateService.ForceUpdateRequirement.HardForce::class.java).map { ForceUpdateResult.HardForceRequired() },
+                        source.ofType(ForceUpdateService.ForceUpdateRequirement.SoftForce::class.java).map { ForceUpdateResult.SoftForceRequired() },
+                        source.ofType(ForceUpdateService.ForceUpdateRequirement.None::class.java).map { ForceUpdateResult.NoForceRequired() }
                 )
             }
         }

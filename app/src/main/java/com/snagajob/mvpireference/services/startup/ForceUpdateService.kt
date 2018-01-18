@@ -1,4 +1,4 @@
-package com.snagajob.mvpireference.views.startup
+package com.snagajob.mvpireference.services.startup
 
 import android.os.Build
 import android.util.Log
@@ -8,7 +8,7 @@ import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 
 
-class ForceUpdateChecker {
+class ForceUpdateService {
     private val FORCE_UPGRADE_MIN_TARGET_OS_VERSION = "forceUpgradeMinTargetOsVersion"
     private val FORCE_UPGRADE_CURRENT_APP_VERSION_CODE = "forceUpgradeCurrentAppVersionCode"
     private val FORCE_UPGRADE_ACTIVE = "forceUpgradeActive"

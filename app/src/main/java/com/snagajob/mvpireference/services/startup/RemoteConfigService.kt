@@ -1,6 +1,5 @@
-package com.snagajob.mvpireference.views.startup
+package com.snagajob.mvpireference.services.startup
 
-import android.app.Activity
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
@@ -11,8 +10,6 @@ import io.reactivex.subjects.BehaviorSubject
 import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit
-import javax.xml.datatype.DatatypeConstants.SECONDS
-
 
 
 class RemoteConfigService {

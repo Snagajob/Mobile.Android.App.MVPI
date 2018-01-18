@@ -1,6 +1,7 @@
 package com.snagajob.mvpireference.views.startup
 
 import com.coreyhorn.mvpiframework.architecture.Presenter
+import com.snagajob.mvpireference.services.startup.RemoteConfigService
 import com.snagajob.mvpireference.views.startup.models.*
 import io.reactivex.Observable
 
