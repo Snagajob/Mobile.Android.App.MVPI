@@ -16,8 +16,7 @@ import com.snagajob.mvpireference.R
 import com.snagajob.mvpireference.views.login.LoginActivity
 import com.snagajob.mvpireference.views.startup.models.*
 
-class StartupFragment : PresenterFragment<StartupEvent, StartupAction, StartupResult, StartupState>() {
-
+class ForceUpdateFragment : PresenterFragment<ForceUpdateEvent, ForceUpdateAction, ForceUpdateResult, ForceUpdateState>() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.fragment_startup, container, false)
@@ -27,13 +26,13 @@ class StartupFragment : PresenterFragment<StartupEvent, StartupAction, StartupRe
     override fun setupViewBindings() {
     }
 
-    override fun presenterFactory(): PresenterFactory<Presenter<StartupEvent, StartupAction, StartupResult, StartupState>> {
-        return object: PresenterFactory<StartupPresenter>() {
-            override fun create() = StartupPresenter()
+    override fun presenterFactory(): PresenterFactory<Presenter<ForceUpdateEvent, ForceUpdateAction, ForceUpdateResult, ForceUpdateState>> {
+        return object: PresenterFactory<ForceUpdatePresenter>() {
+            override fun create() = ForceUpdatePresenter()
         }
     }
 
-    override fun renderViewState(state: StartupState) {
+    override fun renderViewState(state: ForceUpdateState) {
         Log.d("state", state.toString())
         if (state.prerequisitesMet) {
             continueToExpectedActivity()
@@ -42,7 +41,7 @@ class StartupFragment : PresenterFragment<StartupEvent, StartupAction, StartupRe
         {
             if (state.navigationState is NavigationState.ReturningFromStore)
             {
-                events.onNext(StartupEvent.ReevaluateConditionsMet())
+                events.onNext(ForceUpdateEvent.ReevaluateConditionsMet())
             }
 
             handleNavigationState(state.navigationState)
@@ -87,15 +86,17 @@ class StartupFragment : PresenterFragment<StartupEvent, StartupAction, StartupRe
                     .setTitle(titleStringId)
                     .setMessage(messageStringId)
                     .setPositiveButton(positiveButtonStringId,
-                            { _, _ -> events.onNext(StartupEvent.AcceptUpgrade())
+                            { _, _ -> events.onNext(ForceUpdateEvent.AcceptUpgrade())
                             }).setNegativeButton(negativeButtonStringId,
                     { _, _ ->
                         when (dialogState) {
-                            is DialogState.ShowHardForceUpdate -> events.onNext(StartupEvent.CloseApplication())
-                            is DialogState.ShowSoftForceUpdate -> events.onNext(StartupEvent.DismissUpgrade())
+                            is DialogState.ShowHardForceUpdate -> events.onNext(ForceUpdateEvent.CloseApplication())
+                            is DialogState.ShowSoftForceUpdate -> events.onNext(ForceUpdateEvent.DismissUpgrade())
                         }
                     }).create()
             dialog.show()
+
+            dialog.setCanceledOnTouchOutside(false)
         }
     }
 
@@ -111,4 +112,6 @@ class StartupFragment : PresenterFragment<StartupEvent, StartupAction, StartupRe
         intent.data = Uri.parse("market://details?id=com.coco.dmv")
         startActivity(intent)
     }
+
+
 }

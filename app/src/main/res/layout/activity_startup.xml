@@ -4,12 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:id="@+id/fragmentContainer"
     tools:context="com.snagajob.mvpireference.views.startup.StartupActivity">
-
-    <fragment
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        class="com.snagajob.mvpireference.views.startup.StartupFragment"
-        android:id="@+id/login_fragment"/>
-
 </android.support.constraint.ConstraintLayout>

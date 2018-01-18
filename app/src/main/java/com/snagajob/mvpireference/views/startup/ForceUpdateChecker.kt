@@ -1,9 +1,9 @@
 package com.snagajob.mvpireference.views.startup
 
-import android.arch.lifecycle.BuildConfig
 import android.os.Build
 import android.util.Log
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.snagajob.mvpireference.BuildConfig
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 
@@ -47,8 +47,8 @@ class ForceUpdateChecker {
 
         val forceRequired = (forceUpgradeActive
                 && forceUpgradeCurrentAppVersionCode > BuildConfig.VERSION_CODE
-                && (Build.VERSION.SDK_INT >= forceUpgradeMinTargetOsVersion)
-                || !forceUpgradeExceptionAppVersionCodes.contains(BuildConfig.VERSION_CODE))
+                && (Build.VERSION.SDK_INT >= forceUpgradeMinTargetOsVersion
+                || !forceUpgradeExceptionAppVersionCodes.contains(BuildConfig.VERSION_CODE)))
 
         var forceUpdateRequirement = when (forceRequired) {
             true -> when (forceUpgradeIsSoft) {

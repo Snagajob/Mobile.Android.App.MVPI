@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">MVPI Reference</string>
 
+    <!--- LOADING -->
+    <string name="loading">Loading...</string>
+
     <!--- FORCE UPGRADE -->
     <string name="new_version_required"> New version required</string>
     <string name="new_version_recommended"> New version recommended</string>
