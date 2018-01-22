@@ -2,6 +2,7 @@ package com.snagajob.mvpireference.views.login
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,6 +37,7 @@ class LoginFragment: PresenterFragment<LoginEvent, LoginAction, LoginResult, Log
     }
 
     override fun renderViewState(state: LoginState) {
+        Log.d("mvpistate", state.toString())
         submit.isEnabled = state.controlsEnabled
         email.isEnabled = state.controlsEnabled
         password.isEnabled = state.controlsEnabled

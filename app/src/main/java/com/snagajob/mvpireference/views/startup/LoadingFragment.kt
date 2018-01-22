@@ -27,9 +27,9 @@ class LoadingFragment : PresenterFragment<LoadingModel.LoadingEvent, LoadingMode
             override fun create() = LoadingPresenter()
         }
     }
-
+    
     override fun renderViewState(state: LoadingModel.LoadingState) {
-        Log.d("state", state.toString())
+        Log.d("mvpistate", state.toString())
         if (state.remoteConfigFetchState !is LoadingModel.RemoteConfigFetchState.InProgress) {
             (activity as StartupActivity).swapFragment()
         }

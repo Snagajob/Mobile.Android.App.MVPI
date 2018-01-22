@@ -23,29 +23,25 @@ class RemoteConfigService {
         class Failure : RemoteConfigResult()
     }
 
-    var numCores = Runtime.getRuntime().availableProcessors()
-    var executor = ThreadPoolExecutor(numCores * 2, numCores * 2,
-            60L, TimeUnit.SECONDS, LinkedBlockingQueue<Runnable>())
-
     fun fetchFirebaseConfig() {
-        var mFirebaseRemoteConfig: FirebaseRemoteConfig = FirebaseRemoteConfig.getInstance()
+        var firebaseRemoteConfig: FirebaseRemoteConfig = FirebaseRemoteConfig.getInstance()
         val configSettings = FirebaseRemoteConfigSettings.Builder()
                 .setDeveloperModeEnabled(BuildConfig.DEBUG)
                 .build()
-        mFirebaseRemoteConfig.setConfigSettings(configSettings)
-        mFirebaseRemoteConfig.setDefaults(R.xml.remote_config_defaults)
+        firebaseRemoteConfig.setConfigSettings(configSettings)
+        firebaseRemoteConfig.setDefaults(R.xml.remote_config_defaults)
 
         var cacheExpiration: Long = 3600 // 1 hour in seconds.
         // If your app is using developer mode, cacheExpiration is set to 0, so each fetch will
         // retrieve values from the service.
-        if (mFirebaseRemoteConfig.info.configSettings.isDeveloperModeEnabled) {
+        if (firebaseRemoteConfig.info.configSettings.isDeveloperModeEnabled) {
             cacheExpiration = 0
         }
 
-        mFirebaseRemoteConfig.fetch(cacheExpiration)
-                .addOnCompleteListener( executor, OnCompleteListener { task ->
+        firebaseRemoteConfig.fetch(cacheExpiration)
+                .addOnCompleteListener( { task ->
                     if (task.isSuccessful) {
-                        mFirebaseRemoteConfig.activateFetched()
+                        firebaseRemoteConfig.activateFetched()
                         remoteConfigResults.onNext(RemoteConfigResult.Success())
                     } else {
                         remoteConfigResults.onNext(RemoteConfigResult.Failure())

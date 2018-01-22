@@ -52,10 +52,10 @@ class ForceUpdatePresenter : Presenter<ForceUpdateEvent, ForceUpdateAction, Forc
     private fun accumulator(previousState: ForceUpdateState, result: ForceUpdateResult): ForceUpdateState = when (result) {
         is ForceUpdateResult.HardForceRequired -> previousState.copy(dialogState = DialogState.ShowHardForceUpdate())
         is ForceUpdateResult.SoftForceRequired -> previousState.copy(dialogState = DialogState.ShowSoftForceUpdate())
-        is ForceUpdateResult.NoForceRequired -> previousState.copy(prerequisitesMet = true, dialogState = DialogState.Hidden())
-        is ForceUpdateResult.UpgradeAccepted -> ForceUpdateState(false, NavigationState.NavigateToStore(), DialogState.Hidden())
-        is ForceUpdateResult.ApplicationClosed -> ForceUpdateState( false, NavigationState.CloseApp(), DialogState.Hidden())
-        is ForceUpdateResult.DialogDismissed -> ForceUpdateState(true, NavigationState.ContinueInApp(), DialogState.Hidden())
+        is ForceUpdateResult.NoForceRequired -> ForceUpdateState(NavigationState.ContinueInApp(), DialogState.Hidden())
+        is ForceUpdateResult.UpgradeAccepted -> ForceUpdateState(NavigationState.NavigateToStore(), DialogState.Hidden())
+        is ForceUpdateResult.ApplicationClosed -> ForceUpdateState(NavigationState.CloseApp(), DialogState.Hidden())
+        is ForceUpdateResult.DialogDismissed -> ForceUpdateState(NavigationState.ContinueInApp(), DialogState.Hidden())
         is ForceUpdateResult.EvaluationInProgress -> ForceUpdateState.idle()
     }
 }

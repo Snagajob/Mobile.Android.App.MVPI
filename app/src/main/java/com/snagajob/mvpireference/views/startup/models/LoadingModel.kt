@@ -7,9 +7,9 @@ import com.coreyhorn.mvpiframework.basemodels.State
 
 class LoadingModel {
 
-    sealed class LoadingEvent : Event() {}
+    sealed class LoadingEvent : Event()
 
-    sealed class LoadingAction : Action() {}
+    sealed class LoadingAction : Action()
 
     sealed class LoadingResult : Result() {
         class LoadingInProgress : LoadingResult()
@@ -21,7 +21,7 @@ class LoadingModel {
                             val remoteConfigFetchState: RemoteConfigFetchState): State() {
 
         companion object {
-            fun idle() = LoadingState(true, RemoteConfigFetchState.InProgress())
+            fun loading() = LoadingState(true, RemoteConfigFetchState.InProgress())
         }
     }
 

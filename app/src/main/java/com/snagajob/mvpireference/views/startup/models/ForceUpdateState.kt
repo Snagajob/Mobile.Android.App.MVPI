@@ -2,12 +2,11 @@ package com.snagajob.mvpireference.views.startup.models
 
 import com.coreyhorn.mvpiframework.basemodels.State
 
-data class ForceUpdateState(val prerequisitesMet : Boolean,
-                            val navigationState: NavigationState,
+data class ForceUpdateState(val navigationState: NavigationState,
                             val dialogState: DialogState): State() {
 
     companion object {
-        fun idle() = ForceUpdateState(false, NavigationState.EvaluationInProgress(), DialogState.Hidden())
+        fun idle() = ForceUpdateState(NavigationState.EvaluationInProgress(), DialogState.Hidden())
     }
 }
 

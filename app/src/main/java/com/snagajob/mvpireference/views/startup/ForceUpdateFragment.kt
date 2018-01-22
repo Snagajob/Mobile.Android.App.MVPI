@@ -33,26 +33,17 @@ class ForceUpdateFragment : PresenterFragment<ForceUpdateEvent, ForceUpdateActio
     }
 
     override fun renderViewState(state: ForceUpdateState) {
-        Log.d("state", state.toString())
-        if (state.prerequisitesMet) {
-            continueToExpectedActivity()
-        }
-        else
-        {
-            if (state.navigationState is NavigationState.ReturningFromStore)
-            {
-                events.onNext(ForceUpdateEvent.ReevaluateConditionsMet())
-            }
+        Log.d("mvpistate", state.toString())
 
-            handleNavigationState(state.navigationState)
-            handleDialogState(state.dialogState)
-        }
+        handleNavigationState(state.navigationState)
+        handleDialogState(state.dialogState)
     }
 
     fun handleNavigationState(navigationState: NavigationState)
     {
         when (navigationState)
         {
+            is NavigationState.ReturningFromStore -> events.onNext(ForceUpdateEvent.ReevaluateConditionsMet())
             is NavigationState.ContinueInApp -> { continueToExpectedActivity()}
             is NavigationState.NavigateToStore -> { redirectToStore()}
             is NavigationState.CloseApp -> { activity?.finish()}
