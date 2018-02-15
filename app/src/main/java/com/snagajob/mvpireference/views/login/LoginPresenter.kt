@@ -13,7 +13,9 @@ class LoginPresenter: Presenter<LoginEvent, LoginAction, LoginResult, LoginState
 
     init {
         //TODO: Inject LoginService so all references are the same instance.
-        attachResultStream(LoginInteractor(actions, LoginService()).results())
+        val interactor = LoginInteractor(actions, LoginService())
+        attachResultStream(interactor.results())
+        interactor.connected()
     }
 
     override fun attachEventStream(events: Observable<LoginEvent>) {

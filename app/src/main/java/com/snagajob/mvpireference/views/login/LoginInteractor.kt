@@ -16,7 +16,9 @@ class LoginInteractor(actions: Observable<LoginAction>, private val loginService
     init {
         actions.compose(ActionToResult())
                 .subscribe { results.onNext(it) }
+    }
 
+    override fun connected() {
         loginService.loginResults()
                 .compose(LoginServiceResultTransformer())
                 .observeOn(AndroidSchedulers.mainThread())
