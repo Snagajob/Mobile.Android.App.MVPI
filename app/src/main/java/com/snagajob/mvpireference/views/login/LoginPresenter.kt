@@ -3,7 +3,6 @@ package com.snagajob.mvpireference.views.login
 import com.coreyhorn.mvpiframework.architecture.Presenter
 import com.snagajob.mvpireference.disposeWith
 import com.snagajob.mvpireference.merge
-import com.snagajob.mvpireference.services.login.LoginService
 import com.snagajob.mvpireference.views.login.models.*
 import io.reactivex.Observable
 import io.reactivex.ObservableSource
@@ -12,8 +11,7 @@ import io.reactivex.ObservableTransformer
 class LoginPresenter: Presenter<LoginEvent, LoginAction, LoginResult, LoginState>() {
 
     init {
-        //TODO: Inject LoginService so all references are the same instance.
-        val interactor = LoginInteractor(actions, LoginService())
+        val interactor = LoginInteractor(actions)
         attachResultStream(interactor.results())
         interactor.connected()
     }
