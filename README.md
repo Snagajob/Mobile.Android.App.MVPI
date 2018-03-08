@@ -23,17 +23,18 @@ This allows the service to respond appropriately to all possible results as well
 in the stream by emitting an instance of `Error`. Example usage might be (loginService being your Retrofit object):
 ```kotlin
 loginService.attemptLogin()
-    .subscribe { 
+    .map { 
         // Check response object for errors and emit the appropriate type 
         if (it.isError)
-            loginResults.onNext(LoginServiceResult.Error())
+            LoginServiceResult.Error()
         else
             // Can check HTTP codes here and respons appropriately
             if (code == 401)
-                loginResults.onNext(LoginServiceResult.InvalidPassword())
+                LoginServiceResult.InvalidPassword()
             else
-                loginResults.onNext(LoginServiceResult.Success())
+                LoginServiceResult.Success()
     }
+    .subscribe({loginResults.onNext(it)}, {loginResults.onNext(LoginServiceResult.Error())})
 ```
 
 When creating the Retrofit object, we are using Singles to represent requests. This explicitly shows that we are not creating a never ending stream when making these requests. This also means we don't have to be concerned with any other stream breaking operations. Ex:
