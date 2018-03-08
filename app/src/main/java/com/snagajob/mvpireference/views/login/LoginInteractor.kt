@@ -2,6 +2,7 @@ package com.snagajob.mvpireference.views.login
 
 import com.coreyhorn.mvpiframework.architecture.Interactor
 import com.snagajob.mvpireference.merge
+import com.snagajob.mvpireference.services.Services
 import com.snagajob.mvpireference.services.login.LoginService
 import com.snagajob.mvpireference.services.login.LoginService.LoginServiceResult
 import com.snagajob.mvpireference.views.login.models.LoginAction
@@ -11,18 +12,18 @@ import io.reactivex.ObservableSource
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 
-class LoginInteractor(actions: Observable<LoginAction>, private val loginService: LoginService): Interactor<LoginResult>() {
+class LoginInteractor(actions: Observable<LoginAction>): Interactor<LoginResult>() {
 
     init {
         actions.compose(ActionToResult())
-                .subscribe { results.onNext(it) }
+                .subscribe(results)
     }
 
     override fun connected() {
-        loginService.loginResults()
+        Services.loginService.loginResults()
                 .compose(LoginServiceResultTransformer())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { results.onNext(it) }
+                .subscribe(results)
     }
 
     private inner class ActionToResult: ObservableTransformer<LoginAction, LoginResult> {
@@ -30,7 +31,7 @@ class LoginInteractor(actions: Observable<LoginAction>, private val loginService
             return upstream.publish { source ->
                 merge<LoginResult>(
                         source.ofType(LoginAction.LoginAttempt::class.java).map {
-                            loginService.attemptToLogin(it.username, it.password)
+                            Services.loginService.attemptToLogin(it.username, it.password)
                             LoginResult.RequestInProgress()
                         },
                         source.ofType(LoginAction.SnackbarDismiss::class.java).map { LoginResult.SnackbarDismissed() }
